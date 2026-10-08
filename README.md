@@ -41,7 +41,9 @@ The pipeline reads Amazon product data from a CSV file, connects to a MySQL data
 
 ### MySQL Workbench results
 
-![MySQL Workbench showing the Amazon database tables and results](https://github.com/bodhaiatharva098-ab0012/ETL-Pipeline-2/blob/main/Screenshot%202026-10-08%20115037.jpg)(https://github.com/bodhaiatharva098-ab0012/ETL-Pipeline-2/blob/main/Screenshot%202026-10-08%20115020.jpg)(https://github.com/bodhaiatharva098-ab0012/ETL-Pipeline-2/blob/main/Screenshot%202026-10-08%20115004.jpg)
+![MySQL Workbench showing the Amazon database tables and results](https://github.com/bodhaiatharva098-ab0012/ETL-Pipeline-2/blob/main/Screenshot%202026-10-08%20115037.jpg)
+![MySQL Workbench showing the Amazon database tables and results](https://github.com/bodhaiatharva098-ab0012/ETL-Pipeline-2/blob/main/Screenshot%202026-10-08%20115020.jpg)
+![MySQL Workbench showing the Amazon database tables and results](https://github.com/bodhaiatharva098-ab0012/ETL-Pipeline-2/blob/main/Screenshot%202026-10-08%20115004.jpg)
 Add the screenshots to the repository at `workflow.png` and `assets/mysql-workbench.png`. The workflow image should show the **CSV → Python ETL → MySQL → SQL Analysis** process, while the Workbench screenshot should show the created database tables or query results.
 
 ## Requirements
