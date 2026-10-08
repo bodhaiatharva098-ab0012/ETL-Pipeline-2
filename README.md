@@ -167,4 +167,4 @@ Add a license here if you intend to share or reuse this project publicly.
 ## Author
 
 **Atharva Bodhai**
-GitHub: `bodhaiatharva098-ab0012`
+GitHub: `bodhaiatharva098
