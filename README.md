@@ -48,7 +48,7 @@ Backup_Rating_Category	Categorize ratings using CASE
 The program creates these result tables from the Amazon source table.
 
 Screenshots
-ETL Workflow
+ETL Workflow https://github.com/bodhaiatharva098-ab0012/ETL-Pipeline-2/blob/main/Etl%20pipeline%202.jpg
 
 MySQL Workbench Results
 
