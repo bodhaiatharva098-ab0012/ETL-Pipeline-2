@@ -1,140 +1,169 @@
-Amazon Product ETL Pipeline with Python & MySQL
+# Amazon Product ETL Pipeline with Python & MySQL
 
-A beginner-friendly ETL (Extract, Transform, Load) project that uses Python and MySQL to process Amazon product data from a CSV file. The pipeline extracts raw product data, cleans and transforms it using Python, loads it into MySQL, and performs 12 SQL operations for analysis.
+A beginner-friendly ETL workflow that uses **Python, CSV, and MySQL** to extract Amazon product data, clean and transform it with Python and SQL, and load the results into separate analysis and backup tables.
 
-Overview
+## Overview
 
-The pipeline uses mysql-connector-python to connect Python with MySQL. It reads amazon.csv, cleans fields such as prices, discount percentages, ratings, and rating counts, and loads the processed records into an Amazon table.
+The pipeline reads Amazon product data from a CSV file, connects to a MySQL database using `mysql-connector-python`, creates an `Amazon` table, cleans the product data, and runs SQL operations to create **12 derived tables**. The project demonstrates filtering, selecting, sorting, grouping, aggregation, searching, and categorizing data.
 
-After loading the data, the program creates 12 separate backup/result tables using SQL operations such as WHERE, DISTINCT, ORDER BY, GROUP BY, COUNT, AVG, HAVING, BETWEEN, LIKE, and CASE.
+### ETL workflow
 
-ETL Workflow
-Extract Amazon product data from amazon.csv.
-Transform prices, discounts, ratings, and rating counts using Python.
-Load the cleaned data into the MySQL Amazon table.
-Transform and analyze the loaded data using SQL queries.
-Store each SQL result in a separate backup/result table.
-ETL Flow
-Amazon CSV
-    ↓
-Python CSV Reader
-    ↓
-Data Cleaning & Transformation
-    ↓
-MySQL Database
-    ↓
-Amazon Table
-    ↓
-12 SQL Operations
-    ↓
-Backup / Result Tables
-    ↓
-Data Analysis
-Tables Created
-Table	SQL Operation
-Backup_All	Select all Amazon records
-Backup_High_Rating	Filter products with rating ≥ 4
-Backup_Selected_Columns	Select specific product columns
-Backup_Categories	Find distinct categories
-Backup_Rating_Sorted	Sort products by rating
-Backup_Category_Count	Count records by category
-Backup_Average_Rating	Calculate average rating by category
-Backup_High_Average_Rating	Filter categories with average rating ≥ 4
-Backup_Price_Range	Filter prices between 500 and 5000
-Backup_Selected_Categories	Filter selected product categories
-Backup_Name_Search	Search product names containing Cable
-Backup_Rating_Category	Categorize ratings using CASE
+1. **Extract** Amazon product records from the `amazon.csv` file.
+2. **Transform** the data using Python to clean prices, discounts, ratings, and rating counts.
+3. **Load** the cleaned data into the MySQL `Amazon` table.
+4. **Transform and analyze** the data using SQL operations such as `WHERE`, `DISTINCT`, `ORDER BY`, `GROUP BY`, aggregates, `HAVING`, `BETWEEN`, `LIKE`, and `CASE`.
+5. **Load** each SQL result into its own MySQL backup/analysis table.
 
-The program creates these result tables from the Amazon source table.
+## Tables created
 
-Screenshots
-ETL Workflow https://github.com/bodhaiatharva098-ab0012/ETL-Pipeline-2/blob/main/Etl%20pipeline%202.jpg
+| Table                        | Example operation                                           |
+| ---------------------------- | ----------------------------------------------------------- |
+| `Backup_All`                 | Copy all Amazon product rows                                |
+| `Backup_High_Rating`         | Filter products with rating 4 or higher                     |
+| `Backup_Selected_Columns`    | Keep selected product columns                               |
+| `Backup_Categories`          | Select distinct product categories                          |
+| `Backup_Rating_Sorted`       | Sort products by rating descending                          |
+| `Backup_Category_Count`      | Count products by category                                  |
+| `Backup_Average_Rating`      | Calculate average rating by category                        |
+| `Backup_High_Average_Rating` | Keep categories with average rating 4 or higher             |
+| `Backup_Price_Range`         | Filter prices between ₹500 and ₹5,000                       |
+| `Backup_Selected_Categories` | Select products from Computers & Accessories or Electronics |
+| `Backup_Name_Search`         | Find product names containing `Cable`                       |
+| `Backup_Rating_Category`     | Assign rating categories using `CASE`                       |
 
-MySQL Workbench Results
+> The rating, price, category, and product-name filters can be changed according to your requirements.
 
-Place the workflow image in the repository as workflow.png and the MySQL Workbench screenshot as assets/mysql-workbench.png. Update the filenames if your actual image names are different.
+## Screenshots
 
-Requirements
-Python 3
-MySQL Server
-MySQL Workbench
-VS Code
-mysql-connector-python
+### ETL workflow
+
+![Amazon Python and MySQL ETL workflow](https://github.com/bodhaiatharva098-ab0012/ETL-Pipeline/blob/main/workflow.png?raw=true)
+
+### MySQL Workbench results
+
+![MySQL Workbench showing the Amazon database tables and results](https://github.com/bodhaiatharva098-ab0012/ETL-Pipeline/blob/main/assets/mysql-workbench.png?raw=true)
+
+Add the screenshots to the repository at `workflow.png` and `assets/mysql-workbench.png`. The workflow image should show the **CSV → Python ETL → MySQL → SQL Analysis** process, while the Workbench screenshot should show the created database tables or query results.
+
+## Requirements
+
+* Python 3
+* MySQL Server
+* MySQL Workbench (optional, for browsing tables and query results)
+* Amazon product CSV dataset
+* Python packages:
+
+  * `mysql-connector-python`
 
 Install the MySQL connector:
 
+```bash
 python -m pip install mysql-connector-python
-Project Structure
-Amazon-ETL-Pipeline/
+```
+
+## Configure the database connection
+
+Create the target database in MySQL and configure the connection in the Python script.
+
+For security, avoid committing your MySQL password to GitHub. One option is to use environment variables:
+
+```python
+import os
+import mysql.connector
+
+connection = mysql.connector.connect(
+    host=os.getenv("MYSQL_HOST", "localhost"),
+    user=os.getenv("MYSQL_USER"),
+    password=os.getenv("MYSQL_PASSWORD"),
+    database=os.getenv("MYSQL_DATABASE", "etl"),
+)
+```
+
+Set `MYSQL_USER` and `MYSQL_PASSWORD` in your local environment before running the script.
+
+Make sure the configured MySQL database exists and the account has permission to create and insert data into tables.
+
+## Run
+
+1. Start MySQL Server.
+2. Create the target database.
+3. Place `amazon.csv` in the same folder as the Python ETL program.
+4. Install the Python dependency:
+
+```bash
+python -m pip install mysql-connector-python
+```
+
+5. Configure your MySQL connection.
+6. Run the ETL script from the repository folder:
+
+```bash
+python etl_pipeline.py
+```
+
+7. Refresh the schema in MySQL Workbench.
+8. Check the `Amazon` table and the generated `Backup_*` tables.
+
+If your Python file has a different name, replace `etl_pipeline.py` with your actual filename.
+
+## Data Cleaning
+
+The Python ETL process performs several data-cleaning operations before inserting the records into MySQL:
+
+* Removes `₹` symbols from prices.
+* Removes commas from numeric values.
+* Removes `%` from discount percentages.
+* Converts ratings into numeric values.
+* Converts rating counts into integers.
+* Handles blank or invalid values.
+* Inserts the cleaned records into the MySQL `Amazon` table.
+
+## SQL Operations
+
+The project demonstrates the following SQL concepts:
+
+* `SELECT`
+* `WHERE`
+* `DISTINCT`
+* `ORDER BY`
+* `GROUP BY`
+* `COUNT()`
+* `AVG()`
+* `HAVING`
+* `BETWEEN`
+* `LIKE`
+* `CASE`
+
+These operations are used to create separate tables for product analysis and backup purposes.
+
+## Project Structure
+
+```text
+ETL-Pipeline/
 │
-├── hw etl.py
+├── etl_pipeline.py
 ├── amazon.csv
 ├── workflow.png
 ├── assets/
 │   └── mysql-workbench.png
 └── README.md
-Configure MySQL
+```
 
-Update the MySQL connection details in the Python program according to your local MySQL setup.
+## Notes
 
-con = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="YOUR_MYSQL_PASSWORD",
-    database="etl"
-)
+* The project uses `CREATE TABLE IF NOT EXISTS ... AS SELECT ...` to create the output tables.
+* If a backup table already exists, rerunning the program will not automatically refresh its contents.
+* Drop the existing backup tables or modify the SQL when you need to regenerate them.
+* Keep `amazon.csv` in the correct location before running the program.
+* Do not upload MySQL passwords or other credentials to GitHub.
+* Commit the database changes after successful table creation.
+* Close the MySQL cursor and connection after the ETL process is completed.
 
-Do not upload your actual MySQL password to GitHub.
+## License
 
-Run the Project
-Start MySQL Server.
-Make sure amazon.csv is in the same folder as hw etl.py.
-Install the required Python package:
-python -m pip install mysql-connector-python
-Run the program:
-python "hw etl.py"
-Open MySQL Workbench and check the etl database and generated result tables.
-Data Cleaning
+Add a license here if you intend to share or reuse this project publicly.
 
-The Python program performs basic data cleaning before inserting records into MySQL:
+## Author
 
-Removes ₹ and commas from prices.
-Removes % from discount percentages.
-Converts ratings into numeric values.
-Removes commas from rating counts.
-Handles empty or invalid numeric values.
-SQL Analysis
-
-The project demonstrates common SQL concepts including:
-
-SELECT
-WHERE
-DISTINCT
-ORDER BY
-GROUP BY
-COUNT()
-AVG()
-HAVING
-BETWEEN
-LIKE
-CASE
-
-This makes the project useful for learning Python, SQL, MySQL, ETL, and basic data engineering concepts.
-
-Output
-
-After successful execution, the program:
-
-Loads the CSV data into MySQL.
-Creates the 12 analysis/result tables.
-Commits the database changes.
-Displays the total number of records.
-Displays the tables created in the database.
-Closes the MySQL connection.
-Author
-
-Atharva Bodhai
-
-Project Title
-
-Amazon Product ETL Pipeline using Python and MySQL
+**Atharva Bodhai**
+GitHub: `bodhaiatharva098-ab0012`
