@@ -37,7 +37,7 @@ The pipeline reads Amazon product data from a CSV file, connects to a MySQL data
 
 ### ETL workflow
 
-![Amazon Python and MySQL ETL workflow](https://github.com/bodhaiatharva098-ab0012/ETL-Pipeline/blob/main/workflow.png?raw=true)
+![Amazon Python and MySQL ETL workflow]https://github.com/bodhaiatharva098-ab0012/ETL-Pipeline-2/blob/main/Etl%20pipeline%202.jpg
 
 ### MySQL Workbench results
 
